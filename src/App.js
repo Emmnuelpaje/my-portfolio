@@ -122,8 +122,8 @@ export default function Portfolio() {
         <div className="max-w-7xl mx-auto text-center">
           
           <div className="mb-8">
-            <div className="w-40 h-40 sm:w-48 sm:h-48 mx-auto rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 p-2 shadow-2xl">
-              <img src="/profile.jpg" alt="Emmanuel Paje" className="w-full h-full rounded-full object-cover" />
+            <div className="w-64 h-80 sm:w-80 sm:h-96 mx-auto rounded-3xl bg-gradient-to-br from-purple-600 to-red-600 p-1 shadow-2xl">
+              <img src="/profile.jpg" alt="Emmanuel Paje" className="w-full h-full rounded-3xl object-cover" />
             </div>
           </div>
           
