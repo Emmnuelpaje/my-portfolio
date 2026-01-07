@@ -123,17 +123,8 @@ export default function Portfolio() {
           
           <div className="mb-8">
             <div className="w-40 h-40 sm:w-48 sm:h-48 mx-auto rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 p-2 shadow-2xl">
-              <div className="w-full h-full rounded-full overflow-hidden bg-slate-800 flex items-center justify-center text-6xl">
-                <img
-                 src="/profile.jpg"
-                 alt="Emmanuel Paje"
-                 className="w-full h-full rounded-full object-cover"
-                />
-              </div>
+              <img src="/profile.jpg" alt="Emmanuel Paje" className="w-full h-full rounded-full object-cover" />
             </div>
-            <p className="text-gray-400 italic mt-4 text-sm">
-              Upload your photo to public/profile.jpg to replace this
-            </p>
           </div>
           
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-white mb-6">
