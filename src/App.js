@@ -1,9 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Github, Mail, ExternalLink, Menu, X, Code, Briefcase, User, GraduationCap, Heart } from 'lucide-react';
 
 export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [stars, setStars] = useState([]);
+
+  useEffect(() => {
+    const createStar = () => {
+      const star = {
+        id: Date.now() + Math.random(),
+        left: Math.random() * 100,
+        duration: 3 + Math.random() * 4,
+        delay: Math.random() * 2,
+        size: 4 + Math.random() * 6,
+        color: Math.random() > 0.5 ? 'bg-purple-400' : 'bg-red-400'
+      };
+      setStars(prev => [...prev.slice(-30), star]);
+    };
+
+    const interval = setInterval(createStar, 200);
+    return () => clearInterval(interval);
+  }, []);
 
   const scrollToSection = (sectionId) => {
     setActiveSection(sectionId);
@@ -65,16 +83,44 @@ export default function Portfolio() {
   ];
 
   const hobbies = [
-    { name: "Biking", icon: "🚴" },
-    { name: "Watching Anime", icon: "📺", details: "Date A Live, Black Clover, Naruto" },
-    { name: "Reading Manga", icon: "📚" },
-    { name: "Gaming", icon: "🎮", details: "League of Legends, Brawlhalla, ML, Wild Rift" }
+    { name: "Biking", icon: "🚴", details: "I ride my bike around Manila - exploring places like Binondo, MOA, Rizal Park, Antipolo, Cavite, and discovering new routes across the city." },
+    { name: "Watching Anime", icon: "📺", details: "Date A Live, Black Clover, Naruto, and many more. I'm always watching the latest seasonal anime." },
+    { name: "Reading Manga", icon: "📚", details: "I'm a huge fan of harem, isekai, and romance genres. I read tons of manga, manhwa, and webtoons whenever I have free time." },
+    { name: "Gaming", icon: "🎮", details: "League of Legends, Brawlhalla, Mobile Legends, Wild Rift - I play competitively and casually with friends." }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-red-900">
+    <div className="min-h-screen bg-black relative overflow-hidden">
       
-      <nav className="fixed top-0 w-full bg-slate-900/95 backdrop-blur-sm z-50 border-b border-purple-500/20 shadow-lg">
+      <div className="fixed inset-0 pointer-events-none z-0">
+        {stars.map(star => (
+          <div
+            key={star.id}
+            className={`absolute ${star.color} rounded-full opacity-90`}
+            style={{
+              left: `${star.left}%`,
+              top: '-20px',
+              width: `${star.size}px`,
+              height: `${star.size}px`,
+              animation: `fall ${star.duration}s linear ${star.delay}s forwards`,
+              boxShadow: `0 0 ${star.size * 4}px ${star.color === 'bg-purple-400' ? '#c084fc' : '#f87171'}, 0 0 ${star.size * 2}px ${star.color === 'bg-purple-400' ? '#a855f7' : '#ef4444'}`
+            }}
+          />
+        ))}
+      </div>
+
+      <style>{`
+        @keyframes fall {
+          to {
+            transform: translateY(100vh) rotate(360deg);
+            opacity: 0;
+          }
+        }
+      `}</style>
+      
+      <div className="relative z-10">
+      
+      <nav className="fixed top-0 w-full bg-black/90 backdrop-blur-sm z-50 border-b border-purple-500/30 shadow-lg shadow-purple-500/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             
@@ -109,7 +155,7 @@ export default function Portfolio() {
         </div>
 
         {isMenuOpen && (
-          <div className="md:hidden bg-slate-800/95 border-t border-purple-500/20">
+          <div className="md:hidden bg-black/95 border-t border-purple-500/30">
             <div className="px-4 py-4 space-y-3">
               {['home', 'about', 'education', 'skills', 'hobbies', 'projects', 'contact'].map((section) => (
                 <button
@@ -129,14 +175,14 @@ export default function Portfolio() {
         <div className="max-w-7xl mx-auto text-center">
           
           <div className="mb-8">
-            <div className="w-64 h-80 sm:w-80 sm:h-96 mx-auto rounded-3xl bg-gradient-to-br from-purple-600 to-red-600 p-1 shadow-2xl overflow-hidden">
+            <div className="w-64 h-80 sm:w-80 sm:h-96 mx-auto rounded-3xl bg-gradient-to-br from-purple-600 via-pink-500 to-red-600 p-1 shadow-2xl overflow-hidden">
               <img 
                 src={`${process.env.PUBLIC_URL}/profile.jpg`}
                 alt="Emmanuel Paje" 
                 className="w-full h-full rounded-3xl object-cover"
                 onError={(e) => {
-                  e.target.style.display = 'none';
-                  e.target.parentElement.innerHTML = '<div class="w-full h-full rounded-3xl bg-slate-800 flex items-center justify-center text-6xl"><span class="text-white font-bold">EP</span></div>';
+                  e.target.onerror = null;
+                  e.target.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500"><rect width="400" height="500" fill="%23374151"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="72" fill="white" font-weight="bold">EP</text></svg>';
                 }}
               />
             </div>
@@ -158,12 +204,12 @@ export default function Portfolio() {
             <a href="https://github.com/Emmnuelpaje" 
                target="_blank" 
                rel="noopener noreferrer" 
-               className="p-3 bg-slate-800 hover:bg-purple-600 rounded-full transition-all transform hover:scale-110 shadow-lg">
+               className="p-3 bg-purple-600 hover:bg-purple-700 rounded-full transition-all transform hover:scale-110 shadow-lg shadow-purple-500/50">
               <Github className="text-white" size={24} />
             </a>
             
             <a href="mailto:eopaje@student.apc.edu.ph"
-               className="p-3 bg-slate-800 hover:bg-red-600 rounded-full transition-all transform hover:scale-110 shadow-lg">
+               className="p-3 bg-red-600 hover:bg-red-700 rounded-full transition-all transform hover:scale-110 shadow-lg shadow-red-500/50">
               <Mail className="text-white" size={24} />
             </a>
           </div>
@@ -176,21 +222,21 @@ export default function Portfolio() {
             </button>
             <button 
               onClick={() => scrollToSection('contact')}
-              className="px-8 py-3 bg-slate-800 text-white font-semibold rounded-full hover:bg-slate-700 transition-all transform hover:scale-105 shadow-lg border border-purple-500/30">
+              className="px-8 py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-all transform hover:scale-105 shadow-lg border border-purple-500/30">
               Get In Touch
             </button>
           </div>
         </div>
       </section>
 
-      <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-800/30">
+      <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-purple-950/20">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-center mb-12">
             <User className="text-purple-400 mr-3" size={32} />
             <h2 className="text-4xl font-bold text-white">About Me</h2>
           </div>
           
-          <div className="bg-slate-800/50 rounded-2xl p-8 border border-purple-500/20 shadow-xl">
+          <div className="bg-black/60 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/30 shadow-xl shadow-purple-500/10">
             <p className="text-gray-300 text-lg leading-relaxed mb-4">
               I'm Emmanuel Paje, a passionate Computer Science student at Asia Pacific College. 
               I believe in moving forward and not letting the past hold me back - my motto is 
@@ -216,7 +262,7 @@ export default function Portfolio() {
             <h2 className="text-4xl font-bold text-white">Education</h2>
           </div>
           
-          <div className="bg-slate-800/50 rounded-2xl p-8 border border-purple-500/20 shadow-xl">
+          <div className="bg-black/60 backdrop-blur-sm rounded-2xl p-8 border border-red-500/30 shadow-xl shadow-red-500/10">
             <div className="flex items-start space-x-4">
               <div className="flex-shrink-0">
                 <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-red-500 rounded-full flex items-center justify-center">
@@ -243,7 +289,7 @@ export default function Portfolio() {
         </div>
       </section>
 
-      <section id="skills" className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-800/30">
+      <section id="skills" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-red-950/20">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-center mb-12">
             <Code className="text-purple-400 mr-3" size={32} />
@@ -252,7 +298,7 @@ export default function Portfolio() {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {skills.map((skillGroup, idx) => (
-              <div key={idx} className="bg-slate-800/50 rounded-2xl p-6 border border-purple-500/20 hover:border-red-500/40 transition-all hover:transform hover:scale-105 shadow-xl">
+              <div key={idx} className="bg-black/60 backdrop-blur-sm rounded-2xl p-6 border border-purple-500/30 hover:border-red-500/50 transition-all hover:transform hover:scale-105 shadow-xl shadow-purple-500/10 hover:shadow-red-500/20">
                 <h3 className="text-xl font-bold text-purple-400 mb-4 flex items-center">
                   <span className="w-2 h-8 bg-gradient-to-b from-purple-400 to-red-400 rounded-full mr-3"></span>
                   {skillGroup.category}
@@ -280,7 +326,7 @@ export default function Portfolio() {
           
           <div className="grid md:grid-cols-2 gap-6">
             {hobbies.map((hobby, idx) => (
-              <div key={idx} className="bg-slate-800/50 rounded-2xl p-6 border border-purple-500/20 hover:border-red-500/40 transition-all hover:transform hover:scale-105 shadow-xl">
+              <div key={idx} className="bg-black/60 backdrop-blur-sm rounded-2xl p-6 border border-red-500/30 hover:border-purple-500/50 transition-all hover:transform hover:scale-105 shadow-xl shadow-red-500/10 hover:shadow-purple-500/20">
                 <div className="flex items-center mb-3">
                   <span className="text-4xl mr-4">{hobby.icon}</span>
                   <h3 className="text-2xl font-bold text-white">{hobby.name}</h3>
@@ -294,7 +340,7 @@ export default function Portfolio() {
         </div>
       </section>
 
-      <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-800/30">
+      <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-purple-950/20">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-center mb-12">
             <Briefcase className="text-purple-400 mr-3" size={32} />
@@ -303,7 +349,7 @@ export default function Portfolio() {
           
           <div className="grid md:grid-cols-2 gap-8">
             {projects.map((project, idx) => (
-              <div key={idx} className="bg-slate-800/50 rounded-2xl overflow-hidden border border-purple-500/20 hover:border-red-500/40 transition-all hover:transform hover:scale-105 shadow-xl">
+              <div key={idx} className="bg-black/60 backdrop-blur-sm rounded-2xl overflow-hidden border border-purple-500/30 hover:border-red-500/50 transition-all hover:transform hover:scale-105 shadow-xl shadow-purple-500/10 hover:shadow-red-500/20">
                 <div className="p-6">
                   <h3 className="text-2xl font-bold text-white mb-3">{project.title}</h3>
                   <p className="text-gray-300 mb-4 leading-relaxed">{project.description}</p>
@@ -346,7 +392,7 @@ export default function Portfolio() {
             <h2 className="text-4xl font-bold text-white">Get In Touch</h2>
           </div>
           
-          <div className="bg-slate-800/50 rounded-2xl p-8 border border-purple-500/20 shadow-xl mb-8">
+          <div className="bg-black/60 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/30 shadow-xl shadow-purple-500/10 mb-8">
             <p className="text-gray-300 text-lg mb-6 leading-relaxed">
               I'm always open to new opportunities, collaborations, and interesting projects. 
               Whether you want to work together or just chat about anime and games, feel free to reach out!
@@ -372,7 +418,7 @@ export default function Portfolio() {
         </div>
       </section>
 
-      <footer className="py-8 px-4 border-t border-purple-500/20 bg-slate-900/50">
+      <footer className="py-8 px-4 border-t border-purple-500/30 bg-black/80">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-gray-400 mb-2">
             © 2025 Emmanuel Paje. All rights reserved.
@@ -382,6 +428,8 @@ export default function Portfolio() {
           </p>
         </div>
       </footer>
+
+      </div>
     </div>
   );
 }
