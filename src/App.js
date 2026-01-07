@@ -16,25 +16,32 @@ export default function Portfolio() {
 
   const projects = [
     {
-      title: "E-Commerce Platform",
-      description: "A full-stack e-commerce application with payment integration, user authentication, and admin dashboard.",
-      tech: ["React", "Node.js", "MongoDB", "Stripe"],
-      github: "https://github.com/Emmnuelpaje/ecommerce-project",
-      live: "https://ecommerce-demo.com"
+      title: "QR Code Attendance Monitoring System",
+      description: "An attendance monitoring system using QR code technology for Universal College of Parañaque. Students scan QR codes to mark their attendance automatically.",
+      tech: ["React", "Node.js", "QR Code API", "MongoDB"],
+      github: "https://github.com/Emmnuelpaje/qr-attendance",
+      live: "https://qr-attendance-demo.com"
     },
     {
-      title: "Task Management App",
-      description: "Collaborative task management tool with real-time updates and team collaboration features.",
-      tech: ["React", "Firebase", "Tailwind CSS"],
-      github: "https://github.com/Emmnuelpaje/task-manager",
-      live: "https://taskmanager-demo.com"
-    },
-    {
-      title: "Weather Dashboard",
-      description: "Interactive weather dashboard with location search, forecasts, and beautiful data visualizations.",
-      tech: ["React", "API Integration", "Chart.js"],
+      title: "Weather API Application",
+      description: "A weather application that fetches real-time weather data using API integration. Shows current conditions, forecasts, and weather alerts.",
+      tech: ["React", "Weather API", "JavaScript", "CSS3"],
       github: "https://github.com/Emmnuelpaje/weather-app",
-      live: "https://weather-demo.com"
+      live: "https://weather-app-demo.com"
+    },
+    {
+      title: "TRJ Delivery Business Website",
+      description: "A professional business website for TRJ Delivery service, featuring service information, contact forms, and tracking system.",
+      tech: ["React", "Tailwind CSS", "Firebase"],
+      github: "https://github.com/Emmnuelpaje/trj-delivery",
+      live: "https://trj-delivery.com"
+    },
+    {
+      title: "Girlfriend's Day Special Site",
+      description: "A personalized website created for my girlfriend on Girlfriend's Day, featuring photos, messages, and interactive elements.",
+      tech: ["React", "CSS Animations", "JavaScript"],
+      github: "https://github.com/Emmnuelpaje/gf-day-site",
+      live: "https://gf-day-special.com"
     }
   ];
 
@@ -122,8 +129,16 @@ export default function Portfolio() {
         <div className="max-w-7xl mx-auto text-center">
           
           <div className="mb-8">
-            <div className="w-64 h-80 sm:w-80 sm:h-96 mx-auto rounded-3xl bg-gradient-to-br from-purple-600 to-red-600 p-1 shadow-2xl">
-              <img src="/profile.jpg" alt="Emmanuel Paje" className="w-full h-full rounded-3xl object-cover" />
+            <div className="w-64 h-80 sm:w-80 sm:h-96 mx-auto rounded-3xl bg-gradient-to-br from-purple-600 to-red-600 p-1 shadow-2xl overflow-hidden">
+              <img 
+                src={`${process.env.PUBLIC_URL}/profile.jpg`}
+                alt="Emmanuel Paje" 
+                className="w-full h-full rounded-3xl object-cover"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.parentElement.innerHTML = '<div class="w-full h-full rounded-3xl bg-slate-800 flex items-center justify-center text-6xl"><span class="text-white font-bold">EP</span></div>';
+                }}
+              />
             </div>
           </div>
           
